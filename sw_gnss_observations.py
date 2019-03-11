@@ -152,7 +152,7 @@ def save_passage_graphs_at_map(observations, metadata, output_path, outstand=500
         # Show parrarelts and meridians
         parallels = np.arange(0.,81,5.)
         m.drawparallels(parallels,labels=[False,True,False,False])
-        meridians = np.arange(10.,351.,10.)
+        meridians = np.arange(0.,351.,10.)
         m.drawmeridians(meridians,labels=[False,False,False,True])
 
         #plt.show()
