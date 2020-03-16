@@ -106,3 +106,4 @@ venv.bak/
 # example output
 output/*.txt
 output/*.png
+.vscode/

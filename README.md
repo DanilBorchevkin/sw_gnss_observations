@@ -8,11 +8,19 @@ BSD-2 Clause. Please see the LICENCE file.
 
 ## Dependencies
 
-TBA
+* ***numpy***
+
+* ***matplotlib***
+
+* ***mpl_toolkits.basemap***. For install use ```conda install basemap
 
 ## What included
 
-TBA
+* ***./input*** - default folder for input data
+
+* ***./output*** - default folder for output data
+
+* ***./sw_gnss_observations.py*** - main script
 
 ## Techical requirements
 

@@ -24,6 +24,8 @@ def parse_row_to_list(row):
     ['', '', '16', '', '', '11.1']
     The output will be:
     ['16', '11.1']
+
+    (list) -> (list)
     '''
     clean_row = []
     for member in row:
@@ -32,13 +34,23 @@ def parse_row_to_list(row):
 
     return clean_row
 
-def parse_observations(in_path, in_filename):
+def parse_observations(in_filepath, max_angle=None):
+    '''
+    Parse file with specific algorithm
+
+    max_anlge used for filtration of data based on xi value (12 column in file)
+    if xi < max_angle then we add this data to the result
+
+    (str) -> (dict, FileMetadata)
+
+    '''
+
     in_data = []
+    in_filtered_data = []
     metadata = None
 
-    print("Parse observations to hte dictionary")
     # Open input file and read only data from it
-    with open(in_path + in_filename, mode='r') as csv_file:
+    with open(in_filepath, mode='r') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=' ')
 
         for i,row in enumerate(csv_reader):
@@ -53,6 +65,14 @@ def parse_observations(in_path, in_filename):
                 # We parse file with ' ' delimiter. so we have '' members of list
                 # We should delete it and save only meaningful data               
                 in_data.append(parse_row_to_list(row))
+
+    # Filter data based on max angle
+    if max_angle != None:
+        for data in in_data:
+            # 11 it's a angle idx
+            if data[11] <= max_angle:
+                in_filtered_data.append(data)
+        in_data = in_filtered_data
     
     # At this point we have cleared and right separated lines
     # Now we should separate data by sputnik and it's roundtrips
@@ -86,29 +106,6 @@ def save_observations_to_files(observations, out_path):
         with open(out_path + key + '.txt', 'w') as out_file:
             csv_writer = csv.writer(out_file, delimiter='\t', lineterminator='\n')
             csv_writer.writerows(value)
-
-def save_passage_graphs(observations, metadata, output_path):
-    data = observations["KIR00315_1_1"]
-    print(data)
-
-    lats = []
-    longs = []
-
-    for line in data:
-        lats.append(float(line[4]))
-        longs.append(float(line[5]))
-
-    fig, ax = plt.subplots()
-    ax.plot(lats, longs)
-
-    # Set labels for graphs
-    ax.set(xlabel='Lats, grads', 
-            ylabel='Longs, grads',
-            title='KIR03015')
-
-    ax.grid()
-
-    plt.show()
 
 def save_passage_graphs_at_map(observations, metadata, output_path, outstand=5000000):
     print("Start plot and save graphs")
@@ -166,16 +163,18 @@ def main():
     print("Script is started")
 
     # Change parameters here
-    input_path = "./input/"
-    filename = "KIR00315_Y.txt"
+    input_filepath = "./input/KIR00315_Y.txt"
     output_path = "./output/"
 
     # Parse observations to defaultdict and get metadata from file
-    observations, metadata = parse_observations(input_path, filename)
+    observations, metadata = parse_observations(input_filepath, max_angle=35.0)
+
     # Save observations to files
     save_observations_to_files(observations, output_path)
-    # Save passage graphics for observations. Outstand is a value in meters for region which we draw on map - width and height of map in meters with base in center
-    #save_passage_graphs(observations, metadata, output_path)
+
+    # Save passage graphics for observations. 
+    # Outstand is a value in meters for region which we draw on map - 
+    # width and height of map in meters with base in center
     save_passage_graphs_at_map(observations, metadata, output_path, outstand=2000000)
 
     print("Script is ended")
