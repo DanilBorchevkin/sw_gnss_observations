@@ -12,7 +12,7 @@ BSD-2 Clause. Please see the LICENCE file.
 
 * ***matplotlib***
 
-* ***mpl_toolkits.basemap***. For install use ```conda install basemap
+* ***mpl_toolkits.basemap***. For install use ```conda install -c anaconda basemap```
 
 ## What included
 

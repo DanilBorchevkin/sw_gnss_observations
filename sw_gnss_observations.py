@@ -3,6 +3,7 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.basemap import Basemap
+import os
 
 class FileMetadata:
     def __init__(self, metadataList):
@@ -70,13 +71,13 @@ def parse_observations(in_filepath, max_angle=None):
     if max_angle != None:
         for data in in_data:
             # 11 it's a angle idx
-            if data[11] <= max_angle:
+            if float(data[11]) <= max_angle:
                 in_filtered_data.append(data)
         in_data = in_filtered_data
     
     # At this point we have cleared and right separated lines
     # Now we should separate data by sputnik and it's roundtrips
-    out_file_start = in_filename.split('_')[0]
+    out_file_start = os.path.basename(in_filepath).split('_')[0]
     round_trips = defaultdict(int)
     observations = defaultdict(list)
     prevous_sputnik = ''
@@ -167,7 +168,7 @@ def main():
     output_path = "./output/"
 
     # Parse observations to defaultdict and get metadata from file
-    observations, metadata = parse_observations(input_filepath, max_angle=35.0)
+    observations, metadata = parse_observations(input_filepath, max_angle=30.0)
 
     # Save observations to files
     save_observations_to_files(observations, output_path)
