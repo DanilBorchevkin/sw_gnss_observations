@@ -14,6 +14,20 @@ BSD-2 Clause. Please see the LICENCE file.
 
 * ***mpl_toolkits.basemap***. For install use ```conda install -c anaconda basemap```
 
+## Basemap problem
+
+In case of error ***Key ERROR - PROJ_LIB*** please check this [woorkaround](https://ctcoding.wordpress.com/2019/01/29/solved-proj_lib-error-when-installing-basemap-on-windows-using-anaconda/)
+
+Short overview:
+
+1. Save [this file](https://github.com/matplotlib/basemap/blob/master/lib/mpl_toolkits/basemap/data/epsg) to the mpl_toolkit folder (for example *C:\software\Miniconda3\Lib\site-packages\mpl_toolkits\basemap*)
+
+1. Add the following lines of code to the script
+
+```
+os.environ['PROJ_LIB'] = 'C:/software/Miniconda3/Lib/site-packages/mpl_toolkits/basemap'
+```
+
 ## What included
 
 * ***./input*** - default folder for input data

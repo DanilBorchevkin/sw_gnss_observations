@@ -2,6 +2,8 @@ import csv
 from collections import defaultdict
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+os.environ['PROJ_LIB'] = 'C:/software/Miniconda3/Lib/site-packages/mpl_toolkits/basemap'
 from mpl_toolkits.basemap import Basemap
 import os
 
